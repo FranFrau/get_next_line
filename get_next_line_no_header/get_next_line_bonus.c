@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffrau <ffrau@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ffrau <ffrau@student.42roma.it>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 18:42:13 by ffrau             #+#    #+#             */
-/*   Updated: 2022/01/26 18:47:15 by ffrau            ###   ########.fr       */
+/*   Updated: 2022/02/20 16:15:29 by ffrau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,14 @@ char	*ft_read_to_backup(int fd, char *backup)
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*backup;
+	static char	*backup[4096];
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (0);
-	backup = ft_read_to_backup(fd, backup);
-	if (!backup)
+	backup[fd] = ft_read_to_backup(fd, backup[fd]);
+	if (!backup[fd])
 		return (NULL);
-	line = ft_get_line(backup);
-	backup = ft_backup(backup);
+	line = ft_get_line(backup[fd]);
+	backup[fd] = ft_backup(backup[fd]);
 	return (line);
 }
